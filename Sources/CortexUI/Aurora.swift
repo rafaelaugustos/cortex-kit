@@ -4,7 +4,7 @@ import AppKit
 // MARK: - Animation tokens
 
 public extension Animation {
-    /// Named springs shared across the family, so motion feels consistent.
+    /// Named springs, so motion feels consistent across the whole app.
     enum cortex {
         public static let standard: Animation = .spring(response: 0.4, dampingFraction: 0.78)
         public static let bouncy: Animation = .spring(response: 0.55, dampingFraction: 0.7)

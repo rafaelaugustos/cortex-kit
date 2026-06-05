@@ -3,8 +3,9 @@
 Complete public surface of CortexKit `0.1.0`. Grouped by module. Every symbol
 below is `public`; everything else is an implementation detail.
 
-`import CortexKit` re-exports all four modules. Import a single module
-(`import CortexUI`, etc.) to keep link cost minimal.
+A native macOS UI + foundation kit. `import CortexKit` re-exports all four
+modules; import a single module (`import CortexUI`, etc.) to keep link cost
+minimal.
 
 ---
 

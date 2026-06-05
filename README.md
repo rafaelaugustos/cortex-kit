@@ -2,10 +2,11 @@
 
 # CortexKit
 
-**The shared foundation of the Cortex family of native macOS apps.**
+**A native macOS UI + foundation kit, built entirely in Swift.**
 
-The visual identity, the local-AI-via-CLI layer, and the plumbing — extracted
-once, so every product reads as one and nobody copy-pastes `Theme.swift` again.
+An animated "Aurora + Liquid Glass" design system, a zero-API-key AI layer that
+drives the user's local `claude`/`codex` CLI, and the plumbing every macOS app
+re-implements — preferences, Keychain, subprocess running.
 
 `SwiftUI` · `macOS 26+` · `Swift 6.2` · zero third-party dependencies
 
@@ -15,19 +16,24 @@ once, so every product reads as one and nobody copy-pastes `Theme.swift` again.
 
 ## Why
 
-[Cortex DB](../cortex-db), [Cortex Code](../cortex-code) and
-[Cortex Agent](../cortex-agent-codebase) grew the same code three times:
+Most native Mac apps re-implement the same things: a themeable look, secret
+storage, a preferences wrapper, "shell out to a tool on the user's PATH." And
+"call an LLM" usually means shipping an API key and burning tokens.
 
-- `Theme.swift` was **~83% identical** across the apps, copied verbatim.
-- The "AI through your local CLI" layer had **drifted** — `AICLI` +
-  `AIService.run()` in one app, `AIBackend` + `AIService.ask()` in another, with
-  *different* `PATH`-resolution logic (so one app found `claude` in cases the
-  other didn't).
-- `Keychain`, `Toast`, `Markdown`, JSON/search highlighters and skeleton loaders
-  were duplicated or about to be.
+CortexKit packages all of that:
 
-CortexKit makes that shared surface a single versioned Swift package. Edit it
-once; every app — including new ones — picks up the change.
+- A cohesive **design system** — animated Aurora background, Liquid Glass cards
+  with cursor parallax, a 5-theme accent palette, shimmer titles, status dots,
+  staggered entrances — that you adopt with a single `configure` call.
+- An **AI layer with no API keys** — it runs whatever AI CLI the user already
+  has authenticated (`claude` / `codex`), so there's no token cost and nothing
+  to manage.
+- **Plumbing done once and tested** — namespaced preferences, service-scoped
+  Keychain, and robust `PATH` resolution for launching CLIs from a sandboxed,
+  Finder-launched `.app`.
+
+It's a versioned Swift package: drop it in, and the next app — yours or anyone
+else's — starts from a polished baseline.
 
 ## What's inside
 
@@ -93,7 +99,7 @@ struct MyApp: App {
 }
 ```
 
-Then build UI with the family's vocabulary:
+Then build UI with the kit's vocabulary:
 
 ```swift
 struct ContentView: View {
@@ -146,16 +152,17 @@ let token = keychain.get(accountID)
 
 ## Design notes
 
-- **`Brand` is configured, not hard-coded.** The original `Theme.swift` read the
-  theme from a `cortexdb.*` `UserDefaults` key and loaded the logo from its own
-  `Bundle.module` — both coupled shared code to one app. `BrandConfig` is the
-  injection seam: each app provides its namespace + logo via `Brand.configure`
-  (or the `CortexKit.configure` shortcut). Until configured, `Brand` falls back
-  to a sensible default (Violet, SF Symbol logo) so previews and tests just work.
-- **One AI implementation.** `AIProvider` adopts Cortex DB's robust PATH
-  resolution (interactive login shell **plus** a scan of common install dirs)
-  and Cortex Code's preference-aware backend selection — the strict superset of
-  both apps' behaviour.
+- **`Brand` is configured, not hard-coded.** Nothing about the theme or logo is
+  baked into the package: each app provides its preference namespace + logo via
+  `Brand.configure` (or the `CortexKit.configure` shortcut). `BrandConfig` is the
+  injection seam — so the package never reads another app's `UserDefaults` keys
+  or bundles an icon. Until configured, `Brand` falls back to a sensible default
+  (Violet, SF Symbol logo) so previews and tests just work.
+- **Robust AI CLI resolution.** `AIProvider` resolves the binary through an
+  interactive login shell **and** a scan of common install dirs (Homebrew, nvm,
+  `~/.local/bin`, …), so it finds `claude`/`codex` even when the app launched
+  from Finder with a bare environment — and honours a user-pinned backend before
+  falling back to auto-detection.
 - **Performance is built in.** `AuroraBackground` throttles from 60→10fps when
   the app loses focus (same look, far less idle CPU/GPU). `NoiseOverlay` uses a
   seeded PRNG so the speckle is computed deterministically, not re-randomised per

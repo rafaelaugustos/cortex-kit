@@ -1,4 +1,7 @@
-// CortexKit — the shared foundation of the Cortex family of native macOS apps.
+// CortexKit — a native macOS UI + foundation kit, built entirely in Swift.
+//
+// An "Aurora + Liquid Glass" design system, a zero-API-key AI layer that drives
+// the user's local CLI, and the usual plumbing (preferences, Keychain, shell).
 //
 // This umbrella module re-exports the four library targets, so a consumer can
 // write a single `import CortexKit` and reach everything:
@@ -26,7 +29,7 @@ public enum CortexKit {
     /// The package version, kept in sync with the git tag.
     public static let version = "0.1.0"
 
-    /// One-call setup for an app adopting the family identity. Builds a
+    /// One-call setup for an app adopting the kit's identity. Builds a
     /// ``PrefsStore`` for `namespace`, installs the ``BrandConfig`` so the
     /// shared UI reads/writes the accent theme under that namespace, and wires
     /// the app logo. Returns the store so the app can reuse it for its own

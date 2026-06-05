@@ -3,7 +3,7 @@ import SwiftUI
 // MARK: - Shimmer hero text
 
 /// A headline whose fill is the brand gradient with a highlight sweeping across
-/// it forever — the family's "hero" title treatment.
+/// it forever — the kit's "hero" title treatment.
 public struct ShimmerText: View {
     public let text: String
     public var size: CGFloat
@@ -80,7 +80,7 @@ public struct StatusDot: View {
 // MARK: - Cascade entrance
 
 /// Staggered entrance: views fade/slide/scale in with a per-item delay. Apply
-/// with increasing `delay` down a list for the family's signature cascade.
+/// with increasing `delay` down a list for the kit's signature cascade.
 public struct CascadeModifier: ViewModifier {
     public let delay: Double
     public let distance: CGFloat

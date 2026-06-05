@@ -4,9 +4,8 @@ import Security
 /// A thin wrapper over the macOS keychain for generic password items, scoped to
 /// a service string the caller provides.
 ///
-/// The original apps hard-coded their service (`"db.cortex.connections"`); here
-/// it is an instance property so each product — and each kind of secret — gets
-/// its own bucket:
+/// The service is an instance property, so each app — and each kind of secret —
+/// gets its own bucket:
 ///
 /// ```swift
 /// let store = Keychain(service: "db.cortex.connections")
@@ -65,8 +64,8 @@ public struct Keychain: Sendable {
 
     // MARK: - UUID conveniences
 
-    /// Convenience overloads keyed by `UUID` — the common case in the apps,
-    /// where each saved connection's password is keyed by its id.
+    /// Convenience overloads keyed by `UUID` — a common case, where each saved
+    /// record's secret is keyed by its id.
     @discardableResult
     public func set(_ value: String, for id: UUID) -> Bool { set(value, for: id.uuidString) }
     public func get(_ id: UUID) -> String? { get(id.uuidString) }

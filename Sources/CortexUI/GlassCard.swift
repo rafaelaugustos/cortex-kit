@@ -24,7 +24,7 @@ public extension View {
 // MARK: - Glass card with parallax + glow
 
 /// A Liquid Glass card that tilts toward the cursor and shows an accent halo on
-/// hover — the family's signature container. Set `interactive: false` for a
+/// hover — the kit's signature container. Set `interactive: false` for a
 /// static card (e.g. inside a scroll view where tilt would be distracting).
 public struct GlassCard<Content: View>: View {
     private let content: Content

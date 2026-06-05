@@ -3,9 +3,9 @@ import CortexInfra
 
 /// Drives the user's local AI CLI (`claude` / `codex`) to generate text.
 ///
-/// This unifies the two implementations the apps had grown — Cortex DB's robust
-/// PATH resolution (login shell + directory scan, via ``ShellRunner``) and
-/// Cortex Code's preference-aware backend selection — into one provider.
+/// Robust PATH resolution (login shell + directory scan, via ``ShellRunner``)
+/// plus preference-aware backend selection, so it finds the CLI even from a
+/// Finder-launched `.app` and honours a user-pinned backend.
 ///
 /// ```swift
 /// let provider = AIProvider(prefs: PrefsStore(namespace: "cortexdb"))

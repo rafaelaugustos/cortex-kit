@@ -5,7 +5,7 @@ import Foundation
 /// from a Finder-launched `.app` (which inherits a bare environment) is fiddly
 /// enough to deserve one tested implementation.
 ///
-/// This merges the two divergent approaches the apps had grown:
+/// It combines two approaches:
 /// - an **interactive login shell** (`zsh -ilc`) to source `~/.zshrc`, where
 ///   users add Homebrew / nvm / `~/.local/bin` to PATH, and
 /// - a **direct scan** of the common install directories as a fallback.
